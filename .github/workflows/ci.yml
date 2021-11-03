@@ -1,42 +1,50 @@
 name: CI
-
 on:
   push:
-    branches: [ main ]
+    paths-ignore:
+      - '**.md'
+      - '.rubocop.yml'
   pull_request:
-    branches: [ main ]
+    paths-ignore:
+      - '**.md'
+      - '.rubocop.yml'
 
   workflow_dispatch:
 
 jobs:
-  build:
-    runs-on: [ ubuntu-latest, macos-latest, windows-latest ]
+  build-and-test:
+    name: Build and test
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+
+    runs-on: ${{ matrix.os }}
 
     steps:
-      - uses: actions/checkout@v2
+    - uses: actions/checkout@v2
 
-      - name: Install vcpkg
-        run: |
-          echo "Cloning..."
-          git clone https://github.com/microsoft/vcpkg
-          git checkout 5568f110b509a9fd90711978a7cb76bae75bb092
-          if [[ $RUNNER_OS == "Linux" || $RUNNER_OS == "macOS" ]]; then
-            ./vcpkg/bootstrap-vcpkg.sh
-            ./vcpkg/vcpkg --help
-          elif [[ "$RUNNER_OS" == "Windows" ]]; then
-            .\vcpkg\bootstrap-vcpkg.bat
-            .\vcpkg\vcpkg.exe --help
-          else
-            echo "$RUNNER_OS not supported"
-            exit 1
-          fi
+    - name: Install vcpkg
+      run: |
+        echo "Cloning..."
+        git clone https://github.com/microsoft/vcpkg
+        git checkout 5568f110b509a9fd90711978a7cb76bae75bb092
+        if [[ $RUNNER_OS == "Linux" || $RUNNER_OS == "macOS" ]]; then
+          ./vcpkg/bootstrap-vcpkg.sh
+          ./vcpkg/vcpkg --help
+        elif [[ "$RUNNER_OS" == "Windows" ]]; then
+          .\vcpkg\bootstrap-vcpkg.bat
+          .\vcpkg\vcpkg.exe --help
+        else
+          echo "$RUNNER_OS not supported"
+          exit 1
+        fi
 
-      - name: Search packages
-        run: |
-          echo "Searching packages..."
-          if [[ $RUNNER_OS == "Linux" || $RUNNER_OS == "macOS" ]]; then
-            ./vcpkg/vcpkg search fmt
-          elif [[ "$RUNNER_OS" == "Windows" ]]; then
-            .\vcpkg\vcpkg.exe search fmt
-          fi
-          echo "--- [DONE] ---"
+    - name: Search packages
+      run: |
+        echo "Searching packages..."
+        if [[ $RUNNER_OS == "Linux" || $RUNNER_OS == "macOS" ]]; then
+          ./vcpkg/vcpkg search fmt
+        elif [[ "$RUNNER_OS" == "Windows" ]]; then
+          .\vcpkg\vcpkg.exe search fmt
+        fi
+        echo "--- [DONE] ---"
