@@ -37,5 +37,6 @@ jobs:
       shell: bash
       run: |
         echo "Searching packages..."
+        cd vcpkg
         ./vcpkg search fmt
         echo "--- [DONE] ---"
