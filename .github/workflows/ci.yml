@@ -31,7 +31,7 @@ jobs:
         cd vcpkg
         git checkout 5568f11
         ./bootstrap-vcpkg.sh
-        ./vcpkg --help
+        ./vcpkg --version
 
     - name: Search packages
       shell: bash
