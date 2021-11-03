@@ -32,6 +32,7 @@ jobs:
         git checkout 5568f11
         ./bootstrap-vcpkg.sh
         ./vcpkg --version
+        ./vcpkg integrate install
 
     - name: Search packages
       shell: bash
@@ -39,4 +40,12 @@ jobs:
         echo "Searching packages..."
         cd vcpkg
         ./vcpkg search fmt
+        echo "--- [DONE] ---"
+
+    - name: Install packages
+      shell: bash
+      run: |
+        echo "Installing packages..."
+        cd vcpkg
+        ./vcpkg install fmt
         echo "--- [DONE] ---"
