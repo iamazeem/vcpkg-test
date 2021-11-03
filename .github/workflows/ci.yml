@@ -27,7 +27,8 @@ jobs:
       shell: bash
       run: |
         echo "Cloning..."
-        git clone https://github.com/microsoft/vcpk && cd vcpkg
+        git clone https://github.com/microsoft/vcpkg
+        cd vcpkg
         git checkout 5568f11
         ./bootstrap-vcpkg.sh
         ./vcpkg --help
@@ -36,9 +37,5 @@ jobs:
       shell: bash
       run: |
         echo "Searching packages..."
-        if [[ $RUNNER_OS == "Linux" || $RUNNER_OS == "macOS" ]]; then
-          ./vcpkg search fmt
-        elif [[ "$RUNNER_OS" == "Windows" ]]; then
-          .\vcpkg.exe search fmt
-        fi
+        ./vcpkg search fmt
         echo "--- [DONE] ---"
