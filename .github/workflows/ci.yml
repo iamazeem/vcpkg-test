@@ -27,13 +27,14 @@ jobs:
       run: |
         echo "Cloning..."
         git clone https://github.com/microsoft/vcpkg
-        git checkout 5568f110b509a9fd90711978a7cb76bae75bb092
+        cd vcpkg
+        git checkout 5568f11
         if [[ $RUNNER_OS == "Linux" || $RUNNER_OS == "macOS" ]]; then
-          ./vcpkg/bootstrap-vcpkg.sh
-          ./vcpkg/vcpkg --help
+          ./bootstrap-vcpkg.sh
+          ./vcpkg --help
         elif [[ "$RUNNER_OS" == "Windows" ]]; then
-          .\vcpkg\bootstrap-vcpkg.bat
-          .\vcpkg\vcpkg.exe --help
+          .\bootstrap-vcpkg.bat
+          .\vcpkg.exe --help
         else
           echo "$RUNNER_OS not supported"
           exit 1
@@ -43,8 +44,8 @@ jobs:
       run: |
         echo "Searching packages..."
         if [[ $RUNNER_OS == "Linux" || $RUNNER_OS == "macOS" ]]; then
-          ./vcpkg/vcpkg search fmt
+          ./vcpkg search fmt
         elif [[ "$RUNNER_OS" == "Windows" ]]; then
-          .\vcpkg\vcpkg.exe search fmt
+          .\vcpkg.exe search fmt
         fi
         echo "--- [DONE] ---"
