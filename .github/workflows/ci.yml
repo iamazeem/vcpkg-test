@@ -3,11 +3,9 @@ on:
   push:
     paths-ignore:
       - '**.md'
-      - '.rubocop.yml'
   pull_request:
     paths-ignore:
       - '**.md'
-      - '.rubocop.yml'
 
   workflow_dispatch:
 
@@ -25,27 +23,12 @@ jobs:
 
     - name: Install vcpkg
       shell: bash
-      run: |
-        echo "Cloning..."
-        git clone https://github.com/microsoft/vcpkg
-        cd vcpkg
-        git checkout 5568f11
-        ./bootstrap-vcpkg.sh
-        ./vcpkg --version
-        ./vcpkg integrate install
+      run: ./scripts/install-vcpkg.sh
 
-    - name: Search packages
+    - name: Install dependencies
       shell: bash
-      run: |
-        echo "Searching packages..."
-        cd vcpkg
-        ./vcpkg search fmt
-        echo "--- [DONE] ---"
+      run: ./scripts/install-vcpkg-deps.sh
 
-    - name: Install packages
+    - name: Build and run
       shell: bash
-      run: |
-        echo "Installing packages..."
-        cd vcpkg
-        ./vcpkg install fmt
-        echo "--- [DONE] ---"
+      run: ./scripts/build-and-run.sh
