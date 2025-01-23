@@ -19,17 +19,18 @@ jobs:
 
     runs-on: ${{ matrix.os }}
 
+    defaults:
+      run:
+        shell: bash
+
     steps:
     - uses: actions/checkout@v4
 
-    - name: Install vcpkg
-      shell: bash
-      run: ./scripts/install-vcpkg.sh
+    # - name: Install vcpkg
+    #   run: ./scripts/install-vcpkg.sh
 
-    - name: Install dependencies
-      shell: bash
-      run: ./scripts/install-vcpkg-deps.sh
+    - name: Install fmt
+      run: vcpkg install fmt
 
     - name: Build and run
-      shell: bash
       run: ./scripts/build-and-run.sh
