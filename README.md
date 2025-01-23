@@ -1,6 +1,6 @@
 # vcpkg-test
 
-This is an test project that uses [vcpkg](https://github.com/microsoft/vcpkg)
+This is a test project that uses [vcpkg](https://github.com/microsoft/vcpkg)
 with CMake.
 
 It uses only one dependency of [fmt](https://github.com/fmtlib/fmt) library.
