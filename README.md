@@ -1,6 +1,6 @@
 # vcpkg-test
 
-A vcpkg [vcpkg](https://github.com/microsoft/vcpkg) test with CMake and
+A [vcpkg](https://github.com/microsoft/vcpkg) test with CMake and
 [libfmt](https://github.com/fmtlib/fmt) library.
 
 ## Build and run
