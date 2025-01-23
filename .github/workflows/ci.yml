@@ -1,17 +1,18 @@
 name: CI
+
 on:
   push:
     paths-ignore:
-      - '**.md'
+    - '**.md'
   pull_request:
     paths-ignore:
-      - '**.md'
-
+    - '**.md'
   workflow_dispatch:
 
 jobs:
-  build-and-test:
+  ci:
     name: Build and test
+
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest]
@@ -19,7 +20,7 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
     - name: Install vcpkg
       shell: bash
