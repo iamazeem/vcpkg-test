@@ -26,11 +26,13 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    # - name: Install vcpkg
-    #   run: ./scripts/install-vcpkg.sh
-
     - name: Install fmt
-      run: vcpkg install fmt
+      run: |
+        "$VCPKG_INSTALLATION_ROOT"/vcpkg install fmt
 
     - name: Build and run
-      run: ./scripts/build-and-run.sh
+      run: |
+        cmake -B build -S . -DCMAKE_TOOLCHAIN_FILE="$VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake"
+        cmake --build build
+        ./build/test
+
